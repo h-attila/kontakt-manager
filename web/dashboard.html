@@ -1,0 +1,44 @@
+<div class="dashboard">
+
+  <div class="header">
+    <div class="konnekt-logo"></div>
+  </div>
+
+  <div class="body">
+    <div class="buttons">
+      <div class="button icon-add" ng-click="dashboard.openContact()"><p class="text">{{ dashboard.newContact }}</p></div>
+      <div class="button icon-logout" ng-click="dashboard.logoutMember()"><p class="text">{{ dashboard.logoutUser }}</p></div>
+      <div class="spacer"></div>
+      <input type="text" placeholder="találatok szűrése ..." ng-model="filter">
+    </div>
+
+    <div class="table-header">
+      <table>
+        <tr>
+          <th class='row1'>Ismerős Neve</th>
+          <th class='row2'>Ki ez?</th>
+          <th class='row3'>Kinek az ismerőse?</th>
+          <th class='row4'></th>
+          <th class='row5'></th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="table-body">
+      <table class="content">
+        <tr ng-repeat="contact in dashboard.allContacts | orderBy: 'id' : true | filter: filter ">
+          <td class='row1'>{{ contact.name }}</td>
+          <td class='row2'>{{ contact.description }}</td>
+          <td class='row3'>{{ contact.user.email }}</td>
+          <td class='row4'>
+            <div class="edit" ng-show="{{ contact.user.id }} === {{ dashboard.loggedInUser.id }} " ng-click="dashboard.editContact(contact.id)"></div>
+          </td>
+          <td class='row5' ng-switch="{{ contact.user.id }} === {{ dashboard.loggedInUser.id }}">
+            <div class="delete" ng-switch-when="true" ng-click="dashboard.deleteContact(contact.id)"></div>
+            <a href="mailto:{{ contact.user.email }}"><div class="mail" ng-switch-when="false"></div></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
